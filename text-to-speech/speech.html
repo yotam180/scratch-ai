@@ -1,0 +1,45 @@
+<html>
+<head>
+<script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+<script>
+function say(txt, voice) {
+	if (voice) {
+		responsiveVoice.speak(txt, voice);
+	}
+	else {
+		responsiveVoice.speak(txt, "UK English Male");
+	}
+}
+
+function say_w(txt, voice, callback) {
+	if (voice) {
+		responsiveVoice.speak(txt, voice, {onend: callback});
+	}
+	else {
+		responsiveVoice.speak(txt, "UK English Male", {onend: callback});
+	}
+}
+
+function say_p(txt, voice, pitch, rate, volume) {
+	if (voice) {
+		responsiveVoice.speak(txt, voice, {pitch: pitch, rate: rate, volume: volume});
+	}
+	else {
+		responsiveVoice.speak(txt, "UK English Male", {pitch: pitch, rate: rate, volume: volume});
+	}
+}
+
+function say_wp(txt, voice, pitch, rate, volume, callback) {
+	if (voice) {
+		responsiveVoice.speak(txt, voice, {onend: callback, pitch: pitch, rate: rate, volume: volume});
+	}
+	else {
+		responsiveVoice.speak(txt, "UK English Male", {onend: callback, pitch: pitch, rate: rate, volume: volume});
+	}
+}
+</script>
+</head>
+<body>
+
+</body>
+</html>
