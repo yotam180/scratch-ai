@@ -6,8 +6,16 @@ var clients = {}
 const server = new ws({port: 9888});
 server.on("connection", function(conn) {
     conn.on("message", function(data) {
-        var msg = JSON.parse(data);
-        actions[msg.action](conn, msg);
+        try {
+            var msg = JSON.parse(data);
+            actions[msg.action](conn, msg);
+        }
+        catch (e) {
+            try {
+                conn.send(JSON.stringify({id: msg.id, success: false, err: "Internal server error"}));
+            }
+            catch (e2) { }
+        }
     });
     conn.on("close", function() {
         if (clients[conn]) delete clients[conn];
