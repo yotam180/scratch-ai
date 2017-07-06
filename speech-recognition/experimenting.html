@@ -2,8 +2,9 @@
 <head>
 <script src="annyang.js"></script>
 <script>
-annyang.setLanguage("ar");
+annyang.setLanguage("en");
 var commands = {
+	"Go to *site": function(x) {location.href = "https://www.google.co.il/?gfe_rd=cr&ei=4wVaWfDcIKfS8AfDsbWICg#safe=active&q=" + x},
 	"*tag": function(x) { console.log(x); }
 };
 annyang.addCommands(commands);
