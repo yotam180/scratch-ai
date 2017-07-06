@@ -9,6 +9,7 @@
     window.readyNextMsg = true;
     window.currentMsg = null;
 
+
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {
         if (socket) {
@@ -164,6 +165,7 @@
         if (msgQueue.length > 0 && readyNextMsg) {
             readyNextMsg = false;
             currentMsg = msgQueue.shift();
+            console.log(currentMsg);   
             return true;
         }
         return false;
@@ -171,6 +173,35 @@
 
     ext.next_message = function() {
         readyNextMsg = true;
+    };
+
+    ext.last_message = function(){
+        if(window.currentMsg["attachments"].length != 0)
+        {
+            if(window.currentMsg["attachments"][0]["previewUrl"]!=undefined)
+                return window.currentMsg["attachments"][0]["previewUrl"];
+            else if(window.currentMsg["attachments"][0]["url"]!=undefined)
+                return window.currentMsg["attachments"][0]["url"];
+        }
+        return window.currentMsg["body"];
+    };
+    ext.last_sender = function(){
+        return window.currentMsg["senderID"];
+    };
+    ext.message_type = function() {
+        if(window.currentMsg["attachments"].length != 0)
+        {
+            if(window.currentMsg["attachments"][0]["previewUrl"]!=undefined)
+                return "image";
+            else if(window.currentMsg["attachments"][0]["url"]!=undefined)
+                return "voice";
+        }
+        return "text";
+    }
+    ext.play_attachment = function(url, callback) {
+        var a = new Audio(url);
+        a.play();
+        a.onended = callback;
     };
 
     // Block and block menu descriptions
@@ -211,7 +242,14 @@
             ['-'],['-'],
 
             ['h', 'When there\'s a message', 'check_next_msg'],
-            [' ', 'Finish message handling', 'next_message']
+            [' ', 'Finish message handling', 'next_message'],
+            ['r', 'Last message','last_message'],
+            ['r', 'Last sender id','last_sender'],
+
+            ['-'],['-'],
+
+            ['r','Type of last message', 'message_type'],
+            ['w', 'Play sound %s', 'play_attachment', 'url']
         ]
     };
 
