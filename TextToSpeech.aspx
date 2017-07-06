@@ -7,9 +7,16 @@
     <title></title>
 </head>
 <body>
-    <script src="responsivevoice.js">
-    </script>
+    
    <script>
+       function getLanguages() {
+           var temp = speechSynthesis.getVoices();
+           langs = [];
+           for (i = 0; i < temp.length; i++) {
+               langs[langs.length] = temp[i]["lang"];
+           }
+           return langs
+       }
        function say(text,lang,callback)
        {
            var msg = new SpeechSynthesisUtterance(text);
@@ -19,6 +26,7 @@
            if (callback)
                callback();
        }
+       var languages = []
        say("hello");
    </script>
 </body>
